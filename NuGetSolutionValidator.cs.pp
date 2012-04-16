@@ -28,20 +28,7 @@ namespace $rootnamespace$.NuGet
 
         public IEnumerable<PackageDependency> GetPackageDependencies(FileInfo project)
         {
-            var directory = project.Directory;
-            var packageFile = directory.GetFiles("packages.config").FirstOrDefault();
-            if (packageFile == null)
-                return Enumerable.Empty<PackageDependency>();
-
-            var xDocument = XDocument.Load(packageFile.OpenRead());
-            var dependencies = xDocument.Element("packages").Descendants("package")
-                .Select(element => new PackageDependency
-                {
-                    Id = element.Attribute("id").Value,
-                    Version = element.Attribute("version").Value,
-                    PackageFilePath = packageFile.FullName,
-                });
-            return dependencies;
+            return PackageDependency.GetAllPackageDependencies(project.Directory);
         }
 
         public IEnumerable<PackageDependency> GetUnregisteredDependencies()
@@ -121,6 +108,31 @@ namespace $rootnamespace$.NuGet
             return VersionEquals(left.Version, right.Version);
         }
 
+        public static IEnumerable<PackageDependency> GetAllPackageDependencies(DirectoryInfo directory, bool recursive = false)
+        {
+            var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+
+            var packageFiles = directory.GetFiles("packages.config", searchOption);
+            var results = packageFiles.SelectMany(GetPackageDependencies).ToArray();
+            return results;
+        }
+
+        private static IEnumerable<PackageDependency> GetPackageDependencies(FileInfo packageFile)
+        {
+            if (packageFile == null)
+                return Enumerable.Empty<PackageDependency>();
+
+            var xDocument = XDocument.Load(packageFile.OpenRead());
+            var dependencies = xDocument.Element("packages").Descendants("package")
+                .Select(element => new PackageDependency
+                {
+                    Id = element.Attribute("id").Value,
+                    Version = element.Attribute("version").Value,
+                    PackageFilePath = packageFile.FullName,
+                });
+            return dependencies;            
+        } 
+
         private static bool VersionEquals(string left, string right)
         {
             if (left == right)
@@ -164,7 +176,7 @@ namespace $rootnamespace$.NuGet
 
         public IEnumerable<PackageDependency> GetAllPackageDependencies()
         {
-            return NuSpecFiles.SelectMany(nsf => nsf.GetPackageDependencies());
+            return PackageDependency.GetAllPackageDependencies(Directory, recursive:true);
         }
 
         public FileInfo[] AllProjects()
