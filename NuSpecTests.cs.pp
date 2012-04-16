@@ -45,11 +45,13 @@ namespace $rootnamespace$.NuGet
         [Test]
         public void DisplayPackageDependencies()
         {
-			// not really a test, but useful for seeing the "whole picture" when one of the other tests fails.
-			
-            foreach (var dependency in Solution.GetAllPackageDependencies())
+            // not really a test, but useful for seeing the "whole picture" when one of the other tests fails.
+            var allPackageDependencies = Solution
+                .GetAllPackageDependencies()
+                .OrderBy(p => p.Id)
+                .ToArray();
+            foreach (var dependency in allPackageDependencies)
                 Write(dependency);
-
         }
 
         [Test]
@@ -57,7 +59,12 @@ namespace $rootnamespace$.NuGet
         {
 
             // Act
-            var packageVersions = from dependency in Solution.GetAllPackageDependencies()
+            var allPackageDependencies = Solution
+                .GetAllPackageDependencies()
+                .OrderBy(p => p.Id)
+                .ToArray(); 
+            
+            var packageVersions = from dependency in allPackageDependencies
                                   group dependency by dependency.Id
                                     into packageGroup
                                     let versions = packageGroup.Select(pg => pg.Version).Distinct().ToArray()
@@ -75,7 +82,6 @@ namespace $rootnamespace$.NuGet
                 Assert.That(packageVersion.Count, Is.EqualTo(1), "Package {0} references more than one version in the solution: {1}", 
                     packageVersion.Id, string.Join(", ", packageVersion.Versions));
             }
-
         }
 
         [Test]
