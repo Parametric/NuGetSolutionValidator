@@ -1,4 +1,5 @@
 * text=auto !eol
 /NuGetSolutionValidator.cs.pp -text
+/NuSpecTestConfiguration.cs.pp -text
 /NuSpecTests.cs.pp -text
 /PPA.NuGetSolutionValidator.NUnit.nuspec -text

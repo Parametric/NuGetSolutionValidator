@@ -23,7 +23,8 @@
     </dependencies>
   </metadata>
   <files>
-	<file src="NuSpecTests.cs.pp" target="content/NuGet/" />
-	<file src="NuGetSolutionValidator.cs.pp" target="content/NuGet/" />
+	  <file src="NuSpecTests.cs.pp" target="content/NuGet/" />
+	  <file src="NuGetSolutionValidator.cs.pp" target="content/NuGet/" />
+	  <file src="NuSpecTestConfiguration.cs.pp" target="content/NuGet/" />
   </files>
 </package>
