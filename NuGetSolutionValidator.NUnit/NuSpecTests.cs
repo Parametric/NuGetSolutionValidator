@@ -13,14 +13,14 @@ namespace NugetSolutionValidator.NUnit //$rootnamespace$.NuGet
         [TestFixtureSetUp]
         public void BeforeAnyTestRuns()
 		{		
-            this.Configuration = new NuSpecTestConfiguration();
-			this.Solution = this.Configuration.Solution;
+            Configuration = new NuSpecTestConfiguration();
+			Solution = Configuration.Solution;
 		}
 
         [Test]
         public void NuSpecsAreWellDefined()
         {
-            foreach (var nuspec in this.Solution.NuSpecFiles)
+            foreach (var nuspec in Solution.NuSpecFiles)
             {
                 Assert.That(nuspec.Projects.Any(), "{0} does not have any projects registered.", nuspec.Name);
                 Assert.That(nuspec.NuSpecFile, Is.Not.Null, "{0} does not have a configured nuspec file.", nuspec.Name);
@@ -123,8 +123,11 @@ namespace NugetSolutionValidator.NUnit //$rootnamespace$.NuGet
 
         private static void Write(PackageDependency dependency)
         {
-            Console.WriteLine(string.Format("dependency: id={0}, version={1}, packageFile={2}",
-                                            dependency.Id, dependency.Version, dependency.PackageFilePath));
+            var message = string.Format("dependency: id={0}, version={1}, packageFile={2}",
+                                        dependency.Id, 
+                                        dependency.Version, 
+                                        dependency.PackageFilePath);
+            Console.WriteLine(message);
         }
     }
 }
