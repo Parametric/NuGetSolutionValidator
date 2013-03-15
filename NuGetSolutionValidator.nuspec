@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>PPA.NuGetSolutionValidator.NUnit</id>
+    <version>$version$</version>
+    <authors>Parametric Portfolio Associates</authors>
+    <owners>Parametric Portfolio Associates</owners>
+	<!--
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+	-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides some basic validations for .NET solutions producing NuGet packages.</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>NUnit, NuGet</tags>
+	<frameworkAssemblies>
+	  <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
+	</frameworkAssemblies>
+    <dependencies>
+	  <dependency id="NUnit" version="2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+	  <file src="NuSpecTests.cs.pp" target="content/NuGet/" />
+	  <file src="NuGetSolutionValidator.cs.pp" target="content/NuGet/" />
+	  <file src="NuSpecTestConfiguration.cs.pp" target="content/NuGet/" />
+  </files>
+</package>
