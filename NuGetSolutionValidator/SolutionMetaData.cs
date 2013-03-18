@@ -7,13 +7,22 @@ namespace NugetSolutionValidator
 {
     public class SolutionMetaData
     {
-        private FileInfo[] _allProjects;
-        private readonly DirectoryInfo _directory;
         private string _projectExtension = "*.csproj";
 
-        public string SolutionName { get; private set; }
+        public SolutionMetaData(string solutionName)
+        {
+            SolutionName = solutionName;
+            SolutionDirectory = FindSolutionRoot(SolutionName);
+            if (SolutionDirectory == null)
+                throw new ArgumentOutOfRangeException(string.Format("Could not find solution {0}", SolutionName));
 
-        public string ProjectExtension
+            TestProjectsFilter = proj => proj.DirectoryName.EndsWith(".Test") || proj.DirectoryName.EndsWith(".Tests");
+            UpdateAllProjects();
+        }
+
+        private string SolutionName { get; set; }
+
+        private string ProjectExtension
         {
             get { return _projectExtension; }
             set
@@ -23,21 +32,15 @@ namespace NugetSolutionValidator
             }
         }
 
-        public DirectoryInfo Directory
-        {
-            get { return _directory; }
-        }
+        public FileInfo[] AllProjects { get; private set; }
+
+        public DirectoryInfo SolutionDirectory { get; private set; }
 
         public IEnumerable<NuSpecInfo> NuSpecFiles { get; set; }
 
         public IEnumerable<PackageDependency> GetAllPackageDependencies()
         {
-            return PackageDependency.GetAllPackageDependencies(Directory, recursive:true);
-        }
-
-        public FileInfo[] AllProjects()
-        {
-            return _allProjects.ToArray();
+            return PackageDependency.GetAllPackageDependencies(SolutionDirectory, recursive:true);
         }
 
         public Func<FileInfo, bool> TestProjectsFilter { get; set; }
@@ -47,12 +50,12 @@ namespace NugetSolutionValidator
             if (TestProjectsFilter == null)
                 return Enumerable.Empty<FileInfo>();
 
-            return AllProjects().Where(TestProjectsFilter);
+            return AllProjects.Where(TestProjectsFilter);
         }
 
         public FileInfo[] GetAllProductionProjects()
         {
-            return AllProjects().Except(GetTestProjects()).ToArray();
+            return AllProjects.Except(GetTestProjects()).ToArray();
         }
 
         private DirectoryInfo FindSolutionRoot(string solutionFileName)
@@ -67,20 +70,9 @@ namespace NugetSolutionValidator
             return file == null ? null : file.Directory;
         }
 
-        public SolutionMetaData(string solutionName)
-        {
-            SolutionName = solutionName;
-            _directory = FindSolutionRoot(SolutionName);
-            if (_directory == null)
-                throw new ArgumentOutOfRangeException(string.Format("Could not find solution {0}", SolutionName));
-
-            TestProjectsFilter = proj => proj.DirectoryName.EndsWith(".Test") || proj.DirectoryName.EndsWith(".Tests");
-            UpdateAllProjects();
-        }
-
         private void UpdateAllProjects()
         {
-            _allProjects = Directory.GetFiles(this.ProjectExtension, SearchOption.AllDirectories);
+            AllProjects = SolutionDirectory.GetFiles(this.ProjectExtension, SearchOption.AllDirectories);
         }
     }
 }

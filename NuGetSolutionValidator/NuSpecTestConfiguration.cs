@@ -16,7 +16,7 @@ namespace NugetSolutionValidator
             var nuspec1 = new NuSpecInfo
             {
                 Name = "Your nuspec name here",
-                NuSpecFile = Solution.Directory.GetFiles("your nuspec file here").First(),
+                NuSpecFile = Solution.SolutionDirectory.GetFiles("your nuspec file here").First(),
                 Projects = Solution.GetAllProductionProjects().Where(p => p.Name == "your project name here").ToArray(), // provide the list of projects included in the nuspec.
                 OptionalDependencies = new string[]
 				{
