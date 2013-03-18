@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifica
 		NuGetSolutionValidator.nuspec = NuGetSolutionValidator.nuspec
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{DAB318B1-D426-4090-8122-93609F88B6CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NugetSolutionValidator.Tests", "NugetSolutionValidator.Tests\NugetSolutionValidator.Tests.csproj", "{D5DABCF7-C93A-45D7-9E25-2738ED456043}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,8 +28,15 @@ Global
 		{0DC39C83-845B-4602-BCE0-AE14511B2BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DC39C83-845B-4602-BCE0-AE14511B2BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DC39C83-845B-4602-BCE0-AE14511B2BC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5DABCF7-C93A-45D7-9E25-2738ED456043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5DABCF7-C93A-45D7-9E25-2738ED456043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5DABCF7-C93A-45D7-9E25-2738ED456043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5DABCF7-C93A-45D7-9E25-2738ED456043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D5DABCF7-C93A-45D7-9E25-2738ED456043} = {DAB318B1-D426-4090-8122-93609F88B6CA}
 	EndGlobalSection
 EndGlobal

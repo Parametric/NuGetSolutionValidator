@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace NugetSolutionValidator.DomainModels
 {
@@ -6,7 +7,7 @@ namespace NugetSolutionValidator.DomainModels
     {
         public string Name { get; set; }
  
-        public string Path { get; set; }
+        public string SolutionFile { get; set; }
 
         public ICollection<Project> Projects { get; set; }
     }
