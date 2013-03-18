@@ -2,6 +2,6 @@
 {
     public interface IBuilder<out T>
     {
-        T Build(string input);
+        T Build(string packageFilePath);
     }
 }

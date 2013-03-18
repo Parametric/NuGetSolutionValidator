@@ -15,16 +15,16 @@ namespace NugetSolutionValidator.Services
             _packageDependencyBuilder = packageDependencyBuilder;
         }
 
-        public virtual Project Build(string projectPath)
+        public virtual Project Build(string projectFilePath)
         {
-            var projectDirectory = _fileSystem.GetDirectory(projectPath);
+            var projectDirectory = _fileSystem.GetDirectory(projectFilePath);
             var packageFilePath = Path.Combine(projectDirectory, "packages.config");
 
             var packageDependencies = _packageDependencyBuilder.Build(packageFilePath);
 
             var project = new Project
                 {
-                    Path = projectPath,
+                    Path = projectFilePath,
                     PackageFilePath = packageFilePath,
                     PackageDependencies = packageDependencies
                 };

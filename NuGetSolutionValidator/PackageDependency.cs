@@ -33,7 +33,6 @@ namespace NugetSolutionValidator
         {
             if (packageFile == null)
                 return Enumerable.Empty<PackageDependency>();
-
             var xDocument = XDocument.Load(packageFile.OpenRead());
             var dependencies = xDocument.Element("packages").Descendants("package")
                                         .Select(element => new PackageDependency
