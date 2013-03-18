@@ -11,23 +11,23 @@ namespace NugetSolutionValidator.Tests.Services
     [TestFixture]
     public class NuGetPackageDependencyBuilderTests
     {
+        private const string _packageFilePath = "somewhere, out there";
         private ICollection<NuGetPackageDependency> _results;
 
         [TestFixtureSetUp]
         public void BeforeAll()
         {
             // Arrange
-            const string packageFilePath = "somewhere, out there";
             var textReader = GetPackageFileContents();
 
             var fileSystem = new Mock<IFileSystem>();
-            fileSystem.Setup(fs => fs.Exists(packageFilePath)).Returns(true);
-            fileSystem.Setup(fs => fs.OpenText(packageFilePath)).Returns(textReader);
+            fileSystem.Setup(fs => fs.Exists(_packageFilePath)).Returns(true);
+            fileSystem.Setup(fs => fs.OpenText(_packageFilePath)).Returns(textReader);
 
             var builder = new NuGetPackageDependencyBuilder(fileSystem.Object);
 
             // Act
-            _results = builder.Build(packageFilePath);
+            _results = builder.Build(_packageFilePath);
 
         }
 
@@ -60,6 +60,7 @@ namespace NugetSolutionValidator.Tests.Services
             // Assert
             Assert.That(dependency,Is.Not.Null);
             Assert.That(dependency.Version,Is.EqualTo(version));
+            Assert.That(dependency.PackageFilePath, Is.EqualTo(_packageFilePath));
         }
 
         [Test]

@@ -52,6 +52,7 @@
     <Compile Include="Services\NuGetPackageDependencyBuilderTests.cs" />
     <Compile Include="Services\ProjectBuilderTests.cs" />
     <Compile Include="Services\SolutionBuilderTests.cs" />
+    <Compile Include="Validators\AllDependenciesAreSameVersionValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

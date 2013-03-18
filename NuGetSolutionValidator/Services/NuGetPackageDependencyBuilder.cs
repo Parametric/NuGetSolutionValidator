@@ -30,6 +30,7 @@ namespace NugetSolutionValidator.Services
                         {
                             Id = element.Attribute("id").Value,
                             Version = element.Attribute("version").Value,
+                            PackageFilePath = packageFilePath
                         })
                     .ToList();
 

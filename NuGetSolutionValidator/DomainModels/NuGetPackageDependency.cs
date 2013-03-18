@@ -6,5 +6,7 @@
 
         public string Version { get; set; }
 
+        public string PackageFilePath { get; set; }
+
     }
 }
