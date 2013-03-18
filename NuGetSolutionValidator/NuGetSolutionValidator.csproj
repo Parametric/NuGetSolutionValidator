@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainModels\NuSpecFile.cs" />
-    <Compile Include="DomainModels\PackageDependency.cs" />
+    <Compile Include="DomainModels\NuGetPackageDependency.cs" />
     <Compile Include="DomainModels\Project.cs" />
     <Compile Include="DomainModels\Solution.cs" />
     <Compile Include="PredicateEqualityComparer.cs" />

@@ -1,6 +1,6 @@
 ﻿namespace NugetSolutionValidator.DomainModels
 {
-    public class PackageDependency
+    public class NuGetPackageDependency
     {
         public string Id { get; set; }
 

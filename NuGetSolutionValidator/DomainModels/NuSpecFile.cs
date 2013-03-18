@@ -8,6 +8,6 @@ namespace NugetSolutionValidator.DomainModels
 
         public string Path { get; set; }
 
-        public ICollection<PackageDependency> PackageDependencies { get; set; }
+        public ICollection<NuGetPackageDependency> PackageDependencies { get; set; }
     }
 }
