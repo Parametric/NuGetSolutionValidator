@@ -8,5 +8,7 @@ namespace NugetSolutionValidator.Validators
         public NuSpecFile NuSpecFile { get; set; }
 
         public ICollection<Project> Projects { get; set; }
+
+        public ICollection<string> OptionalDependencies { get; set; } 
     }
 }
