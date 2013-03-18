@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 
 
-namespace NugetSolutionValidator// $rootnamespace$.NuGet
+namespace NugetSolutionValidator
 {
     public class NuSpecTestConfiguration
     {

@@ -39,9 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NuGetSolutionValidator.cs" />
+    <Compile Include="PredicateEqualityComparer.cs" />
+    <Compile Include="NuSpecInfo.cs" />
     <Compile Include="NuSpecTestConfiguration.cs" />
+    <Compile Include="PackageDependency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SolutionMetaData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
