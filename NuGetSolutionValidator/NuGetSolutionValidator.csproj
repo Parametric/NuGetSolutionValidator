@@ -55,6 +55,7 @@
     <Compile Include="Services\NuSpecPackageDependencyBuilder.cs" />
     <Compile Include="Services\ProjectBuilder.cs" />
     <Compile Include="Services\SolutionBuilder.cs" />
+    <Compile Include="Services\WindowsFileSystem.cs" />
     <Compile Include="SolutionMetaData.cs" />
     <Compile Include="Validators\AllDependenciesAreSameVersionValidator.cs" />
     <Compile Include="Validators\IValidator.cs" />

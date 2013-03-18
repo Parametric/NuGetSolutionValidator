@@ -7,8 +7,8 @@ namespace NugetSolutionValidator.Services
         string FindFullFilePath(string fileName);
 
         string[] ReadFile(string filePath);
-        string GetDirectory(string projectPath);
+        string GetDirectory(string filePath);
         bool Exists(string path);
-        TextReader OpenText(string packageFilePath);
+        TextReader OpenText(string path);
     }
 }

@@ -33,6 +33,7 @@ namespace NugetSolutionValidator.Tests.Services
             var fileSystem = new Mock<IFileSystem>();
             fileSystem.Setup(fs => fs.FindFullFilePath(_solutionName)).Returns(_fullFilePath);
             fileSystem.Setup(fs => fs.ReadFile(_fullFilePath)).Returns(solutionFileContents);
+            fileSystem.Setup(fs => fs.GetDirectory(_fullFilePath)).Returns("");
 
             var projectBuilder = new Mock<IBuilder<Project>>();
             projectBuilder.Setup(b => b.Build("Project1\\Project1.csproj")).Returns(_projectOne);

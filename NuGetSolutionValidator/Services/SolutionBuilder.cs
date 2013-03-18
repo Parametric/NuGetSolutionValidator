@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using NugetSolutionValidator.DomainModels;
 
@@ -11,6 +12,14 @@ namespace NugetSolutionValidator.Services
         private readonly IBuilder<Project> _projectBuilder;
         private readonly IBuilder<NuSpecFile> _nuspecFileBuilder;
 
+        public SolutionBuilder()
+            :this(new WindowsFileSystem(), 
+            new ProjectBuilder(new WindowsFileSystem(), new NuGetPackageDependencyBuilder(new WindowsFileSystem())),
+            new NuSpecFileBuilder(new NuSpecPackageDependencyBuilder(new WindowsFileSystem())))
+        {
+            
+        }
+
         public SolutionBuilder(IFileSystem fileSystem, IBuilder<Project> projectBuilder,IBuilder<NuSpecFile> nuspecFileBuilder)
         {
             _fileSystem = fileSystem;
@@ -20,10 +29,15 @@ namespace NugetSolutionValidator.Services
 
         public virtual Solution Build(string solutionName,params string[] nuspecFileNames)
         {
+            if (!solutionName.EndsWith(".sln"))
+            {
+                solutionName += ".sln";
+            }
+
             var solutionFilePath = _fileSystem.FindFullFilePath(solutionName);
 
             var solutionFileContents = _fileSystem.ReadFile(solutionFilePath);
-            var projectsInSolution = ReadProjectsFromSolution(solutionFileContents);
+            var projectsInSolution = ReadProjectsFromSolution(solutionFileContents, solutionFilePath);
 
             var nuspecFiles = GetNuSpecFiles(nuspecFileNames);
 
@@ -50,12 +64,16 @@ namespace NugetSolutionValidator.Services
             return files;
         }
 
-        private List<Project> ReadProjectsFromSolution(IEnumerable<string> solutionFileContents)
+        private List<Project> ReadProjectsFromSolution(IEnumerable<string> solutionFileContents, string solutionFilePath)
         {
+            var solutionDirectory = _fileSystem.GetDirectory(solutionFilePath);
             var projectPaths = GetProjectFilePathsFromSolution(solutionFileContents);
+
             var projectsInSolution = projectPaths
+                .Select(p=>Path.Combine(solutionDirectory,p))
                 .Select(_projectBuilder.Build)
                 .ToList();
+
             return projectsInSolution;
         }
 
