@@ -36,7 +36,7 @@ namespace NugetSolutionValidator.Tests.Validators
             var validator = new AllDependenciesAreSameVersionValidator();
 
             // Act
-            var results = validator.Validate(solution);
+            var results = validator.Validate(solution.Projects);
 
             // Assert
             Assert.That(results,Is.Empty);
@@ -70,7 +70,7 @@ namespace NugetSolutionValidator.Tests.Validators
             var validator = new AllDependenciesAreSameVersionValidator();
 
             // Act
-            var results = validator.Validate(solution).ToList();
+            var results = validator.Validate(solution.Projects).ToList();
 
             // Assert
             Assert.That(results.Count(),Is.EqualTo(1));

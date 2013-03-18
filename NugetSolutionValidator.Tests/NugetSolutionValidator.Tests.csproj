@@ -54,6 +54,7 @@
     <Compile Include="Services\ProjectBuilderTests.cs" />
     <Compile Include="Services\SolutionBuilderTests.cs" />
     <Compile Include="Validators\AllDependenciesAreSameVersionValidatorTests.cs" />
+    <Compile Include="Validators\NuSpecContainsOnlyOneEntryPerPackageValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
