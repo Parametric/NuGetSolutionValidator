@@ -15,6 +15,8 @@ namespace NugetSolutionValidator.Tests.Services
         private string _fullFilePath;
         private Project _projectOne;
         private Project _projectTwo ;
+        private NuSpecFile _nuspec1;
+        private NuSpecFile _nuspec2;
 
         [TestFixtureSetUp]
         public void BeforeAll()
@@ -23,6 +25,8 @@ namespace NugetSolutionValidator.Tests.Services
             _fullFilePath = @"C:\where I am\A Solution\MySolution.sln";
             _projectOne = Builder<Project>.CreateNew().Build();
             _projectTwo = Builder<Project>.CreateNew().Build();
+            _nuspec1 = Builder<NuSpecFile>.CreateNew().Build();
+            _nuspec2 = Builder<NuSpecFile>.CreateNew().Build();
 
             var solutionFileContents = GetSolutionFileContents();
 
@@ -34,9 +38,13 @@ namespace NugetSolutionValidator.Tests.Services
             projectBuilder.Setup(b => b.Build("Project1\\Project1.csproj")).Returns(_projectOne);
             projectBuilder.Setup(b => b.Build("Project2\\Project2.csproj")).Returns(_projectTwo);
 
-            var builder = new SolutionBuilder(fileSystem.Object,projectBuilder.Object);
+            var nuspecBuilder = new Mock<IBuilder<NuSpecFile>>();
+            nuspecBuilder.Setup(b => b.Build("spec1")).Returns(_nuspec1);
+            nuspecBuilder.Setup(b => b.Build("spec2")).Returns(_nuspec2);
 
-            _solution = builder.Build(_solutionName);
+            var builder = new SolutionBuilder(fileSystem.Object, projectBuilder.Object, nuspecBuilder.Object);
+
+            _solution = builder.Build(_solutionName,"spec1","spec2");
         }
 
         private string[] GetSolutionFileContents()
@@ -69,12 +77,18 @@ namespace NugetSolutionValidator.Tests.Services
             Assert.That(_solution.SolutionFile,Is.EqualTo(_fullFilePath));
         }
 
-
         [Test]
         public void Then_the_projects_are_found()
         {
             // Assert
             Assert.That(_solution.Projects,Is.EquivalentTo(new[]{_projectOne,_projectTwo}));
+        }
+
+        [Test]
+        public void Then_the_nuspec_files_are_created()
+        {
+            // Assert
+            Assert.That(_solution.NuSpecFiles, Is.EquivalentTo(new[] { _nuspec1, _nuspec2 }));
         }
 
     }

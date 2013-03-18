@@ -51,6 +51,7 @@
     <Compile Include="Services\IBuilder.cs" />
     <Compile Include="Services\IFileSystem.cs" />
     <Compile Include="Services\NuGetPackageDependencyBuilder.cs" />
+    <Compile Include="Services\NuSpecFileBuilder.cs" />
     <Compile Include="Services\ProjectBuilder.cs" />
     <Compile Include="Services\SolutionBuilder.cs" />
     <Compile Include="SolutionMetaData.cs" />

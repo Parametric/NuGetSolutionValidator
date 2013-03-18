@@ -10,5 +10,7 @@ namespace NugetSolutionValidator.DomainModels
         public string SolutionFile { get; set; }
 
         public ICollection<Project> Projects { get; set; }
+
+        public ICollection<NuSpecFile> NuSpecFiles { get; set; }
     }
 }
