@@ -54,16 +54,10 @@ namespace NugetSolutionValidator.Tests.Validators
                                 PackageDependencies = new[]
                                     {
                                         new NuGetPackageDependency{Id="MyPackage",Version = "1.0",PackageFilePath = "where I am 1"},
+                                        new NuGetPackageDependency{Id="MyPackage",Version = "1.1",PackageFilePath = "where I am 2"},
                                         new NuGetPackageDependency{Id="Something Else",Version = "2.0",PackageFilePath = "where I am 1"},
                                     }
-                            },
-                            new NuSpecFile{
-                                PackageDependencies = new[]
-                                    {
-                                        new NuGetPackageDependency{Id="MyPackage",Version = "1.1",PackageFilePath = "where I am 2"},
-                                        new NuGetPackageDependency{Id="Yet Another Thing",Version = "3.0",PackageFilePath = "where I am 2"},
-                                    }
-                            },
+                            }
                         }
                 };
 
