@@ -59,6 +59,9 @@
     <Compile Include="Validators\AllDependenciesAreSameVersionValidator.cs" />
     <Compile Include="Validators\IValidator.cs" />
     <Compile Include="Validators\NuSpecContainsOnlyOneEntryPerPackageValidator.cs" />
+    <Compile Include="Validators\NuSpecContainsOnlyRequiredDependenciesValidator.cs" />
+    <Compile Include="Validators\NuSpecValidationRequest.cs" />
+    <Compile Include="Validators\NuSpecContainsAllProjectDependenciesValidator.cs" />
     <Compile Include="Validators\ValidationResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
