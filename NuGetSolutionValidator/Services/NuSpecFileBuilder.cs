@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Services
@@ -14,10 +15,15 @@ namespace NugetSolutionValidator.Services
 
         public NuSpecFile Build(string nuspecFilePath)
         {
+            if (!nuspecFilePath.EndsWith(".nuspec"))
+                nuspecFilePath = nuspecFilePath + ".nuspec";
+
             var dependencies = _packageDependencyBuilder.Build(nuspecFilePath);
+            var name = Path.GetFileNameWithoutExtension(nuspecFilePath);
 
             return new NuSpecFile
                 {
+                    Name = name,
                     Path = nuspecFilePath,
                     PackageDependencies = dependencies
                 };

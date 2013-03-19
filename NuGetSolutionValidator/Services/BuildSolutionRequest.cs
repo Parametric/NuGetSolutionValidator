@@ -10,12 +10,15 @@ namespace NugetSolutionValidator.Services
         {
             NuspecFileNames = new List<string>();
             NuspecProjectSets = new Dictionary<string, NuSpecProjectSet>();
+            ProjectFilter = project => true;
         }
 
         public BuildSolutionRequest(string solutionName, params string[] nuspecFileNames)
         {
             SolutionName = solutionName;
             NuspecFileNames = nuspecFileNames;
+            NuspecProjectSets = new Dictionary<string, NuSpecProjectSet>();
+            ProjectFilter = project => true;
         }
 
         public string SolutionName { get; private set; }
@@ -42,13 +45,13 @@ namespace NugetSolutionValidator.Services
 
         public BuildSolutionRequest WithNuSpecProjectSet( string nuspecFileName,
                                                                   ICollection<string> projectNames,
-                                                                  ICollection<string> optionalDependencies)
+                                                                  ICollection<string> optionalDependencies = null)
         {
             var nuspecProjectSet = new NuSpecProjectSet
                 {
                     NuSpecFile = nuspecFileName,
                     Projects = projectNames,
-                    OptionalDependencies = optionalDependencies
+                    OptionalDependencies = optionalDependencies ?? new string[0]
                 };
 
             NuspecProjectSets.Add(nuspecProjectSet.NuSpecFile,nuspecProjectSet);

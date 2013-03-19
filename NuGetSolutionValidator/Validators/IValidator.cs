@@ -4,6 +4,6 @@ namespace NugetSolutionValidator.Validators
 {
     public interface IValidator<in T>
     {
-        IEnumerable<ValidationResult> Validate(T toValidate);
+        IEnumerable<ValidationResult> Validate(T validationRequest);
     }
 }

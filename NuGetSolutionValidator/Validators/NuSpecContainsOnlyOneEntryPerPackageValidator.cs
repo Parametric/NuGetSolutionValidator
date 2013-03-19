@@ -5,11 +5,11 @@ using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Validators
 {
-    public class NuSpecContainsOnlyOneEntryPerPackageValidator : IValidator<ICollection<NuSpecFile>>
+    public class NuSpecContainsOnlyOneEntryPerPackageValidator : IValidator<ICollection<NuSpecFile>>, IValidator<Solution>
     {
-        public IEnumerable<ValidationResult> Validate(ICollection<NuSpecFile> toValidate)
+        public IEnumerable<ValidationResult> Validate(ICollection<NuSpecFile> validationRequest)
         {
-            foreach (var nuSpecFile in toValidate)
+            foreach (var nuSpecFile in validationRequest)
             {
                 var packagesById = nuSpecFile.PackageDependencies
                                         .GroupBy(p => p.Id);
@@ -37,6 +37,11 @@ namespace NugetSolutionValidator.Validators
             var result = new ValidationResult { Message = message };
 
             return result;
+        }
+
+        public IEnumerable<ValidationResult> Validate(Solution validationRequest)
+        {
+            return Validate(validationRequest.NuSpecFiles);
         }
     }
 }

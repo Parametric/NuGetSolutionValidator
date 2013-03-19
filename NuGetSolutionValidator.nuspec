@@ -19,7 +19,7 @@
 	  <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
 	</frameworkAssemblies>
     <dependencies>
-	  <dependency id="NUnit" version="2.5" />
+	  <dependency id="NUnit" version="2.5.7.10213" />
     </dependencies>
   </metadata>
   <files>

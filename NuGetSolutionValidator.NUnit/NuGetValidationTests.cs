@@ -18,7 +18,12 @@ namespace NugetSolutionValidator.NUnit
         public void BeforeAll()
         {
             var solutionBuilder = new SolutionBuilder();
-            var request = new BuildSolutionRequest("NuGetSolutionValidator");
+            var request = new BuildSolutionRequest()
+                .WithSolutionName("NuGetSolutionValidator")
+                .WithProjects(p=>p.Name != "NugetSolutionValidator.Tests")
+                .WithNuSpec("NuGetSolutionValidator")
+                .WithNuSpecProjectSet("NuGetSolutionValidator", new[] { "NuGetSolutionValidator.NUnit" });
+                
             _solution = solutionBuilder.Build(request);
         }
 
@@ -63,13 +68,13 @@ namespace NugetSolutionValidator.NUnit
         }
 
         [Test]
-        public void Nuspec_files_contain_only_required_dependencies()
+        public void Nuspec_files_contains_required_dependencies()
         {
             // Arrange
-            var validator = new NuSpecContainsOnlyRequiredDependenciesValidator();
+            var validator = new NuSpecContainsAllProjectDependenciesValidator();
 
             // Act
-            var results = validator.Validate(new NuSpecValidationRequest());
+            var results = validator.Validate(_solution);
 
             // Assert
             Assert.That(results, Is.Empty, GetFailureMessage(results));
@@ -82,7 +87,7 @@ namespace NugetSolutionValidator.NUnit
             var validator = new NuSpecContainsOnlyRequiredDependenciesValidator();
 
             // Act
-            var results = validator.Validate(new NuSpecValidationRequest());
+            var results = validator.Validate(_solution);
 
             // Assert
             Assert.That(results, Is.Empty, GetFailureMessage(results));
