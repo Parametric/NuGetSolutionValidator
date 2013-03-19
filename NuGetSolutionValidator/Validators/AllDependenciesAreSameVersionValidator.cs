@@ -6,7 +6,7 @@ using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Validators
 {
-    public class AllDependenciesAreSameVersionValidator : IValidator<ICollection<Project>>
+    public class AllDependenciesAreSameVersionValidator : IValidator<ICollection<Project>>,IValidator<Solution>
     {
         public IEnumerable<ValidationResult> Validate(ICollection<Project> toValidate)
         {
@@ -35,6 +35,16 @@ namespace NugetSolutionValidator.Validators
             var result = new ValidationResult {Message = message};
 
             return result;
+        }
+
+        public IEnumerable<ValidationResult> Validate(Solution solution)
+        {
+            var projects = solution
+                .Projects
+                .Where(solution.ProjectFilter)
+                .ToList();
+
+            return Validate(projects);
         }
     }
 }

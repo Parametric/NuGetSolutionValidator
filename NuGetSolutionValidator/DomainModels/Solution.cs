@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace NugetSolutionValidator.DomainModels
@@ -18,6 +19,8 @@ namespace NugetSolutionValidator.DomainModels
 
         public ICollection<NuSpecFile> NuSpecFiles { get; set; }
 
-        public ICollection<NuSpecProjectSet> NuSpecProjectSets { get; set; } 
+        public ICollection<NuSpecProjectSet> NuSpecProjectSets { get; set; }
+
+        public Func<Project, bool> ProjectFilter { get; set; }
     }
 }

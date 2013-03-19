@@ -42,27 +42,30 @@ namespace NugetSolutionValidator.Services
             var solutionFileContents = _fileSystem.ReadFile(solutionFilePath);
             var projectsInSolution = ReadProjectsFromSolution(solutionFileContents, solutionFilePath);
 
-            var nuspecFiles = GetNuSpecFiles(request.NuspecFileNames);
+            var nuspecFiles = GetNuSpecFiles(request.NuspecFileNames,solutionFilePath);
 
             var solution = new Solution
                 {
                     Name = solutionName,
                     SolutionFile = solutionFilePath,
                     Projects = projectsInSolution,
-                    NuSpecFiles = nuspecFiles
+                    NuSpecFiles = nuspecFiles,
+                    NuSpecProjectSets = request.NuspecProjectSets.Values,
+                    ProjectFilter = request.ProjectFilter
                 };
-
-            solution.NuSpecProjectSets = request.NuspecProjectSets.Values;
 
             return solution;
         }
 
-        private ICollection<NuSpecFile> GetNuSpecFiles(ICollection<string> nuspecFileNames)
+        private ICollection<NuSpecFile> GetNuSpecFiles(ICollection<string> nuspecFileNames, string solutionFilePath)
         {
             if(nuspecFileNames == null || !nuspecFileNames.Any())
                 return new Collection<NuSpecFile>();
 
+            var solutionDirectory = _fileSystem.GetDirectory(solutionFilePath);
+
             var files = nuspecFileNames
+                .Select(p => Path.Combine(solutionDirectory,p))
                 .Select(_nuspecFileBuilder.Build)
                 .ToList();
 
@@ -99,7 +102,7 @@ namespace NugetSolutionValidator.Services
 
             var projectDefinitions = cleanedProjectLines
                 .Where(line => line.Item2.EndsWith("proj"))
-                 .Select(line => new Tuple<string, string>(line.Item1, line.Item2.Trim()));
+                 .Select(line => new Tuple<string, string>(line.Item1.Trim(), line.Item2.Trim()));
 
             return projectDefinitions;
         }

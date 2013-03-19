@@ -47,7 +47,7 @@ namespace NugetSolutionValidator.NUnit
             var validator = new AllDependenciesAreSameVersionValidator();
 
             // Act
-            var results = validator.Validate(_solution.Projects);
+            var results = validator.Validate(_solution);
 
             // Assert
             Assert.That(results, Is.Empty, GetFailureMessage(results));
