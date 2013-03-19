@@ -4,12 +4,12 @@ using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Services
 {
-    public class ProjectBuilder : IBuilder<Project>
+    public class ProjectBuilder : IBuilder<Project, string>
     {
         private readonly IFileSystem _fileSystem;
-        private readonly IBuilder<ICollection<NuGetPackageDependency>> _packageDependencyBuilder;
+        private readonly IBuilder<ICollection<NuGetPackageDependency>, string> _packageDependencyBuilder;
 
-        public ProjectBuilder(IFileSystem fileSystem, IBuilder<ICollection<NuGetPackageDependency>> packageDependencyBuilder)
+        public ProjectBuilder(IFileSystem fileSystem, IBuilder<ICollection<NuGetPackageDependency>, string> packageDependencyBuilder)
         {
             _fileSystem = fileSystem;
             _packageDependencyBuilder = packageDependencyBuilder;

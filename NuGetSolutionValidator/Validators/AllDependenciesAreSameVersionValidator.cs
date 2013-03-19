@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NugetSolutionValidator.DomainModels;
@@ -27,8 +28,8 @@ namespace NugetSolutionValidator.Validators
             var realizedDependencies = dependency.ToList();
 
             var messageBuilder = new StringBuilder();
-            messageBuilder.AppendFormat("Multiple versions found for package '{0}':", realizedDependencies.First().Id);
-            realizedDependencies.ForEach(d=>messageBuilder.AppendFormat("| ({0}) {1}",d.Version,d.PackageFilePath));
+            messageBuilder.AppendFormat("Multiple versions found for package '{0}':{1}", realizedDependencies.First().Id,Environment.NewLine);
+            realizedDependencies.ForEach(d=>messageBuilder.AppendFormat("  ({0}) {1}{2}",d.Version,d.PackageFilePath,Environment.NewLine));
             var message = messageBuilder.ToString();
 
             var result = new ValidationResult {Message = message};

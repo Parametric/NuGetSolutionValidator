@@ -7,7 +7,7 @@ using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Services
 {
-    public class NuSpecPackageDependencyBuilder:IBuilder<ICollection<NuGetPackageDependency>>
+    public class NuSpecPackageDependencyBuilder : IBuilder<ICollection<NuGetPackageDependency>, string>
     {
         private readonly IFileSystem _fileSystem;
 

@@ -3,11 +3,11 @@ using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Services
 {
-    public class NuSpecFileBuilder:IBuilder<NuSpecFile>
+    public class NuSpecFileBuilder : IBuilder<NuSpecFile, string>
     {
-        private readonly IBuilder<ICollection<NuGetPackageDependency>> _packageDependencyBuilder;
+        private readonly IBuilder<ICollection<NuGetPackageDependency>, string> _packageDependencyBuilder;
 
-        public NuSpecFileBuilder(IBuilder<ICollection<NuGetPackageDependency>> nuspecDependencyBuilder)
+        public NuSpecFileBuilder(IBuilder<ICollection<NuGetPackageDependency>, string> nuspecDependencyBuilder)
         {
             _packageDependencyBuilder = nuspecDependencyBuilder;
         }

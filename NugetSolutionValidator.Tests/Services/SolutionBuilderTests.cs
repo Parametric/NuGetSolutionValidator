@@ -35,17 +35,18 @@ namespace NugetSolutionValidator.Tests.Services
             fileSystem.Setup(fs => fs.ReadFile(_fullFilePath)).Returns(solutionFileContents);
             fileSystem.Setup(fs => fs.GetDirectory(_fullFilePath)).Returns("");
 
-            var projectBuilder = new Mock<IBuilder<Project>>();
+            var projectBuilder = new Mock<IBuilder<Project, string>>();
             projectBuilder.Setup(b => b.Build("Project1\\Project1.csproj")).Returns(_projectOne);
             projectBuilder.Setup(b => b.Build("Project2\\Project2.csproj")).Returns(_projectTwo);
 
-            var nuspecBuilder = new Mock<IBuilder<NuSpecFile>>();
+            var nuspecBuilder = new Mock<IBuilder<NuSpecFile, string>>();
             nuspecBuilder.Setup(b => b.Build("spec1")).Returns(_nuspec1);
             nuspecBuilder.Setup(b => b.Build("spec2")).Returns(_nuspec2);
 
             var builder = new SolutionBuilder(fileSystem.Object, projectBuilder.Object, nuspecBuilder.Object);
-
-            _solution = builder.Build(_solutionName,"spec1","spec2");
+            
+            var request = new BuildSolutionRequest(_solutionName, "spec1", "spec2");
+            _solution = builder.Build(request);
         }
 
         private string[] GetSolutionFileContents()

@@ -6,11 +6,11 @@ using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Services
 {
-    public class SolutionBuilder
+    public class SolutionBuilder: IBuilder<Solution,BuildSolutionRequest>
     {
         private readonly IFileSystem _fileSystem;
-        private readonly IBuilder<Project> _projectBuilder;
-        private readonly IBuilder<NuSpecFile> _nuspecFileBuilder;
+        private readonly IBuilder<Project, string> _projectBuilder;
+        private readonly IBuilder<NuSpecFile, string> _nuspecFileBuilder;
 
         public SolutionBuilder()
             :this(new WindowsFileSystem(), 
@@ -20,15 +20,17 @@ namespace NugetSolutionValidator.Services
             
         }
 
-        public SolutionBuilder(IFileSystem fileSystem, IBuilder<Project> projectBuilder,IBuilder<NuSpecFile> nuspecFileBuilder)
+        public SolutionBuilder(IFileSystem fileSystem, IBuilder<Project, string> projectBuilder, IBuilder<NuSpecFile, string> nuspecFileBuilder)
         {
             _fileSystem = fileSystem;
             _projectBuilder = projectBuilder;
             _nuspecFileBuilder = nuspecFileBuilder;
         }
 
-        public virtual Solution Build(string solutionName,params string[] nuspecFileNames)
+        public virtual Solution Build(BuildSolutionRequest request)
         {
+            var solutionName = request.SolutionName;
+            
             if (!solutionName.EndsWith(".sln"))
             {
                 solutionName += ".sln";
@@ -39,7 +41,7 @@ namespace NugetSolutionValidator.Services
             var solutionFileContents = _fileSystem.ReadFile(solutionFilePath);
             var projectsInSolution = ReadProjectsFromSolution(solutionFileContents, solutionFilePath);
 
-            var nuspecFiles = GetNuSpecFiles(nuspecFileNames);
+            var nuspecFiles = GetNuSpecFiles(request.NuspecFileNames);
 
             var solution = new Solution
                 {

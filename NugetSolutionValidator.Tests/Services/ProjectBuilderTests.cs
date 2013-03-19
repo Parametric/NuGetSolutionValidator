@@ -28,7 +28,7 @@ namespace NugetSolutionValidator.Tests.Services
             var fileSystem = new Mock<IFileSystem>();
             fileSystem.Setup(fs => fs.GetDirectory(_projectFilePath)).Returns(_projectDirectory);
 
-            var packageBuilder = new Mock<IBuilder<ICollection<NuGetPackageDependency>>>();
+            var packageBuilder = new Mock<IBuilder<ICollection<NuGetPackageDependency>, string>>();
             packageBuilder.Setup(b => b.Build(_expectedPackageFilePath)).Returns(_dependencies);
 
             var builder = new ProjectBuilder(fileSystem.Object, packageBuilder.Object);
