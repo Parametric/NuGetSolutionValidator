@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace NugetSolutionValidator.Services
     public class SolutionBuilder: IBuilder<Solution,BuildSolutionRequest>
     {
         private readonly IFileSystem _fileSystem;
-        private readonly IBuilder<Project, string> _projectBuilder;
+        private readonly IBuilder<Project, BuildProjectRequest> _projectBuilder;
         private readonly IBuilder<NuSpecFile, string> _nuspecFileBuilder;
 
         public SolutionBuilder()
@@ -20,7 +21,7 @@ namespace NugetSolutionValidator.Services
             
         }
 
-        public SolutionBuilder(IFileSystem fileSystem, IBuilder<Project, string> projectBuilder, IBuilder<NuSpecFile, string> nuspecFileBuilder)
+        public SolutionBuilder(IFileSystem fileSystem, IBuilder<Project, BuildProjectRequest> projectBuilder, IBuilder<NuSpecFile, string> nuspecFileBuilder)
         {
             _fileSystem = fileSystem;
             _projectBuilder = projectBuilder;
@@ -70,16 +71,16 @@ namespace NugetSolutionValidator.Services
         {
             var solutionDirectory = _fileSystem.GetDirectory(solutionFilePath);
             var projectPaths = GetProjectFilePathsFromSolution(solutionFileContents);
-
+            
             var projectsInSolution = projectPaths
-                .Select(p=>Path.Combine(solutionDirectory,p))
-                .Select(_projectBuilder.Build)
+                .Select(p=> new Tuple<string,string>(p.Item1, Path.Combine(solutionDirectory,p.Item2)))
+                .Select(p=>_projectBuilder.Build(new BuildProjectRequest().WithName(p.Item1).WithProjectFilePath(p.Item2)))
                 .ToList();
 
             return projectsInSolution;
         }
 
-        private static IEnumerable<string> GetProjectFilePathsFromSolution(IEnumerable<string> solutionFileContents)
+        private static IEnumerable<Tuple<string,string>> GetProjectFilePathsFromSolution(IEnumerable<string> solutionFileContents)
         {
             var projectLines = solutionFileContents
                 .Select(line=>line.Trim())
@@ -90,13 +91,13 @@ namespace NugetSolutionValidator.Services
                 .Where(line => line.Length > 2);
 
             var cleanedProjectLines = projectLinesSplit
-                .Select(line => line[1])
-                .Select(line=>line.Replace("\"",""))
-                .Select(line=>line.TrimEnd(new[]{'"','\\'}));
+                .Select(line => new Tuple<string, string>(line[0], line[1]))
+                .Select(line => new Tuple<string, string>(line.Item1.Split(new[]{'='}).LastOrDefault() ?? "", line.Item2.Replace("\"", "")))
+                .Select(line => new Tuple<string, string>(line.Item1.Replace("\"", ""), line.Item2.TrimEnd(new[] { '"', '\\' })));
 
             var projectDefinitions = cleanedProjectLines
-                .Where(line => line.EndsWith("proj"))
-                .Select(line => line.Trim());
+                .Where(line => line.Item2.EndsWith("proj"))
+                 .Select(line => new Tuple<string, string>(line.Item1, line.Item2.Trim()));
 
             return projectDefinitions;
         }

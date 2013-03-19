@@ -8,7 +8,7 @@ namespace NugetSolutionValidator.Services
     {
         public static BuildSolutionRequest WithTestProjectsExcluded(this BuildSolutionRequest request)
         {
-            request.WithProjects(p => !p.Path.Contains(".Test.") && !p.Path.Contains(".Tests."));
+            request.WithProjects(p => !p.Name.EndsWith(".Test") && !p.Name.EndsWith(".Tests"));
             return request;
         }
 

@@ -48,6 +48,7 @@
     <Compile Include="NuSpecTestConfiguration.cs" />
     <Compile Include="PackageDependency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BuildProjectRequest.cs" />
     <Compile Include="Services\BuildSolutionRequest.cs" />
     <Compile Include="Services\BuildSolutionRequestExtensions.cs" />
     <Compile Include="Services\IBuilder.cs" />

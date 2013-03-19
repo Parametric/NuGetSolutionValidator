@@ -4,7 +4,7 @@ using NugetSolutionValidator.DomainModels;
 
 namespace NugetSolutionValidator.Services
 {
-    public class ProjectBuilder : IBuilder<Project, string>
+    public class ProjectBuilder : IBuilder<Project, BuildProjectRequest>
     {
         private readonly IFileSystem _fileSystem;
         private readonly IBuilder<ICollection<NuGetPackageDependency>, string> _packageDependencyBuilder;
@@ -15,16 +15,17 @@ namespace NugetSolutionValidator.Services
             _packageDependencyBuilder = packageDependencyBuilder;
         }
 
-        public virtual Project Build(string projectFilePath)
+        public virtual Project Build(BuildProjectRequest request)
         {
-            var projectDirectory = _fileSystem.GetDirectory(projectFilePath);
+            var projectDirectory = _fileSystem.GetDirectory(request.ProjectFilePath);
             var packageFilePath = Path.Combine(projectDirectory, "packages.config");
 
             var packageDependencies = _packageDependencyBuilder.Build(packageFilePath);
 
             var project = new Project
                 {
-                    Path = projectFilePath,
+                    Name = request.Name,
+                    Path = request.ProjectFilePath,
                     PackageFilePath = packageFilePath,
                     PackageDependencies = packageDependencies
                 };

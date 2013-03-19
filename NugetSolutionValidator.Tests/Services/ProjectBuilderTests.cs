@@ -15,12 +15,14 @@ namespace NugetSolutionValidator.Tests.Services
         private Project _project;
         private string _expectedPackageFilePath;
         private string _projectDirectory;
+        private string _projectName;
 
         [TestFixtureSetUp]
         public void BeforeAll()
         {
             _projectFilePath = @"C:\myproject\myproject.csproj";
             _projectDirectory = @"C:\myproject";
+            _projectName = "What I am called";
 
             _dependencies = Builder<NuGetPackageDependency>.CreateListOfSize(2).Build();
             _expectedPackageFilePath = @"C:\myproject\packages.config";
@@ -32,8 +34,11 @@ namespace NugetSolutionValidator.Tests.Services
             packageBuilder.Setup(b => b.Build(_expectedPackageFilePath)).Returns(_dependencies);
 
             var builder = new ProjectBuilder(fileSystem.Object, packageBuilder.Object);
+            var request = new BuildProjectRequest()
+                .WithProjectFilePath(_projectFilePath)
+                .WithName(_projectName);
 
-            _project = builder.Build(_projectFilePath);
+            _project = builder.Build(request);
         }
 
 
@@ -42,6 +47,13 @@ namespace NugetSolutionValidator.Tests.Services
         {
             // Assert
             Assert.That(_project.Path,Is.EqualTo(_projectFilePath));
+        }
+
+        [Test]
+        public void Then_the_project_name_is_set()
+        {
+            // Assert
+            Assert.That(_project.Name, Is.EqualTo(_projectName));
         }
 
         [Test]
