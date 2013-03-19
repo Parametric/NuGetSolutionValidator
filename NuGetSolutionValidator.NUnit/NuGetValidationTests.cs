@@ -18,8 +18,7 @@ namespace NugetSolutionValidator.NUnit
         public void BeforeAll()
         {
             var solutionBuilder = new SolutionBuilder();
-            var request = new BuildSolutionRequest("NuGetSolutionValidator.sln");
-
+            var request = new BuildSolutionRequest("NuGetSolutionValidator");
             _solution = solutionBuilder.Build(request);
         }
 

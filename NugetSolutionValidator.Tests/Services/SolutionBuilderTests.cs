@@ -44,8 +44,12 @@ namespace NugetSolutionValidator.Tests.Services
             nuspecBuilder.Setup(b => b.Build("spec2")).Returns(_nuspec2);
 
             var builder = new SolutionBuilder(fileSystem.Object, projectBuilder.Object, nuspecBuilder.Object);
-            
-            var request = new BuildSolutionRequest(_solutionName, "spec1", "spec2");
+
+            var request = new BuildSolutionRequest()
+                .WithSolutionName(_solutionName)
+                .WithNuSpec("spec1")
+                .WithNuSpec("spec2");
+
             _solution = builder.Build(request);
         }
 
