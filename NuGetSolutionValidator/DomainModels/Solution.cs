@@ -5,6 +5,11 @@ namespace NugetSolutionValidator.DomainModels
 {
     public class Solution
     {
+        public Solution()
+        {
+            NuSpecProjectSets = new List<NuSpecProjectSet>();
+        }
+
         public string Name { get; set; }
  
         public string SolutionFile { get; set; }
@@ -12,5 +17,7 @@ namespace NugetSolutionValidator.DomainModels
         public ICollection<Project> Projects { get; set; }
 
         public ICollection<NuSpecFile> NuSpecFiles { get; set; }
+
+        public ICollection<NuSpecProjectSet> NuSpecProjectSets { get; set; } 
     }
 }
