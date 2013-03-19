@@ -52,6 +52,8 @@ namespace NugetSolutionValidator.Services
                     NuSpecFiles = nuspecFiles
                 };
 
+            solution.NuSpecProjectSets = request.NuspecProjectSets.Values;
+
             return solution;
         }
 
