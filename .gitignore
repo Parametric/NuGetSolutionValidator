@@ -1,0 +1,10 @@
+_ReSharper.*
+obj/
+*.ncrunchsolution
+*.crunchsolution.cache
+*.ncrunchproject
+bin/
+*.user
+packages/
+*.suo
+_NCrunch*

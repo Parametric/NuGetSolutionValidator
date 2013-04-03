@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{59685A8C-6A25-4F12-86E3-829864A418A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NuGetSolutionValidator</RootNamespace>
+    <AssemblyName>NuGetSolutionValidator</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainModels\NuSpecFile.cs" />
+    <Compile Include="DomainModels\NuGetPackageDependency.cs" />
+    <Compile Include="DomainModels\NuSpecProjectSet.cs" />
+    <Compile Include="DomainModels\Project.cs" />
+    <Compile Include="DomainModels\Solution.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BuildProjectRequest.cs" />
+    <Compile Include="Services\BuildSolutionRequest.cs" />
+    <Compile Include="Services\IBuilder.cs" />
+    <Compile Include="Services\IFileSystem.cs" />
+    <Compile Include="Services\NuGetPackageDependencyBuilder.cs" />
+    <Compile Include="Services\NuSpecFileBuilder.cs" />
+    <Compile Include="Services\NuSpecPackageDependencyBuilder.cs" />
+    <Compile Include="Services\ProjectBuilder.cs" />
+    <Compile Include="Services\SolutionBuilder.cs" />
+    <Compile Include="Services\WindowsFileSystem.cs" />
+    <Compile Include="Validators\AllDependenciesAreSameVersionValidator.cs" />
+    <Compile Include="Validators\IValidator.cs" />
+    <Compile Include="Validators\NuSpecContainsOnlyOneEntryPerPackageValidator.cs" />
+    <Compile Include="Validators\NuSpecContainsOnlyRequiredDependenciesValidator.cs" />
+    <Compile Include="Validators\NuSpecValidationRequest.cs" />
+    <Compile Include="Validators\NuSpecContainsAllProjectDependenciesValidator.cs" />
+    <Compile Include="Validators\ValidationResult.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
