@@ -25,7 +25,7 @@
   
   <files>
     <file src="NuGetSolutionValidator\bin\Release\NuGetSolutionValidator.dll" target="lib/net40"/>
-	  <file src="NuGetSolutionValidator.NUnit/NuGetValidationTests.cs" target="content/NuGet/NuGetValidationTests.cs.pp" />
+	  <file src="NuGetSolutionValidator.NUnit\NuGetValidationTests.cs" target="content/NuGet/NuGetValidationTests.cs" />
   </files>
   
 </package>
