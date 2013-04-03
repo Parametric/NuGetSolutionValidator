@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSolutionValidator.NUni
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{5EA231A8-6D64-4A5A-B2AE-3E39D3B206BA}"
 	ProjectSection(SolutionItems) = preProject
+		NuGetSolutionValidator.MsTest.nuspec = NuGetSolutionValidator.MsTest.nuspec
 		NuGetSolutionValidator.NUnit.nuspec = NuGetSolutionValidator.NUnit.nuspec
 	EndProjectSection
 EndProject
