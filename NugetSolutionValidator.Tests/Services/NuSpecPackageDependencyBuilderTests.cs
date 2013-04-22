@@ -57,6 +57,27 @@ namespace NugetSolutionValidator.Tests.Services
 </package>");
         }
 
+        private TextReader GetNuSpecFileWithoutDependenciesContents()
+        {
+            return new StringReader(@"<?xml version=""1.0""?>
+<package >
+  <metadata>
+    <id>Some.Pckage</id>
+    <version>$version$</version>
+    <authors>I wrote this</authors>
+    <owners>I own this</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Does things</description>
+    <copyright>Copyright 1971</copyright>
+    <tags>Test</tags>
+  </metadata>
+  <files>
+    <file src=""SomeProject\bin\Release\SomeProject.dll"" target=""lib/net40"" />
+    <file src=""SomeProject.Web\bin\SomeProject.Web.dll"" target=""lib/net40"" />
+  </files>
+</package>");
+        }
+
         [Test]
         public void Then_each_dependency_is_read()
         {
@@ -95,6 +116,25 @@ namespace NugetSolutionValidator.Tests.Services
 
             // Assert
             Assert.That(result, Is.Not.Null);
-        }         
+        }
+
+        [Test]
+        public void When_building_and_no_dependencies_are_defined_then_none_are_found()
+        {
+            var textReader = GetNuSpecFileWithoutDependenciesContents();
+
+            var fileSystem = new Mock<IFileSystem>();
+            fileSystem.Setup(fs => fs.Exists(_nuspecFilePath)).Returns(true);
+            fileSystem.Setup(fs => fs.OpenText(_nuspecFilePath)).Returns(textReader);
+
+            var builder = new NuSpecPackageDependencyBuilder(fileSystem.Object);
+
+            // Act
+            var results = builder.Build(_nuspecFilePath);
+
+            // Assert
+            Assert.That(results,Is.Empty);
+
+        }
     }
 }

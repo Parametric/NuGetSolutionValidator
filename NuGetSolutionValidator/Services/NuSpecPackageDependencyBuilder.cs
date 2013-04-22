@@ -26,7 +26,12 @@ namespace NugetSolutionValidator.Services
                 var dependencies = xDocument
                     .Element("package")
                     .Element("metadata")
-                    .Element("dependencies")
+                    .Element("dependencies");
+
+                if(dependencies == null)
+                    return new List<NuGetPackageDependency>();
+
+                var resolvedDependencies = dependencies
                     .Descendants("dependency")
                     .Select(element => new NuGetPackageDependency
                         {
@@ -36,7 +41,7 @@ namespace NugetSolutionValidator.Services
                         })
                     .ToList();
 
-                return dependencies;
+                return resolvedDependencies;
             }
         }
     }
