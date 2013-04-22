@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    
+    <id>NuGetSolutionValidator.MsTest</id>
+    <version>$version$</version>
+    <authors>Parametric Portfolio Associates</authors>
+    <owners>Parametric Portfolio Associates</owners>
+    <projectUrl>https://github.com/parametric/NuGetSolutionValidator</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides some basic validations for .NET solutions using NuGet packages.</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>MsTest, NuGet</tags>
+    
+	  <frameworkAssemblies>
+	    <frameworkAssembly assemblyName="Microsoft.VisualStudio.QualityTools.UnitTestFramework" targetFramework="net40" />
+	  </frameworkAssemblies>
+    
+  </metadata>
+  
+  <files>
+    <file src="NuGetSolutionValidator\bin\Release\NuGetSolutionValidator.dll" target="lib/net40"/>
+	  <file src="NuGetSolutionValidator.MsTest\NuGetValidationTests.cs" target="content/NuGet/NuGetValidationTests.cs" />
+  </files>
+  
+</package>
