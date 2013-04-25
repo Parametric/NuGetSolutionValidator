@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Nugetsolutionvalidator by Parametric</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Nugetsolutionvalidator</h1>
+        <h2>Package that validates Nuget configuration within a solution</h2>
+        <a href="https://github.com/Parametric/NuGetSolutionValidator" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>NuGetSolutionValidator</h1>
+
+<h3>NugetSolutionValidator is a tool that is meant to do two things:</h3>
+
+<ol>
+<li>Ensure that any Nuget packages used in projects within a solution are the same version</li>
+<li>Ensure that any NuSpec files built from projects within a solution contain their proper dependencies</li>
+</ol><p>Each of these are ran as unit tests using either NUnit or Microsoft's Unit Testing framework.  With these in place, any mismatches should be found during the execution of the tests manually, or during a CI build.</p>
+
+<h3>Nuget</h3>
+
+<p>NugetSolutionValidator is available on the public Nuget feed at <a href="http://nuget.org/packages?q=nugetsolutionvalidator">http://nuget.org/packages?q=nugetsolutionvalidator</a> and can be installed by running the command:</p>
+
+<h4>NUnit</h4>
+
+<pre><code>Install-Package NuGetSolutionValidator.NUnit
+</code></pre>
+
+<h4>MsTest</h4>
+
+<pre><code>Install-Package NuGetSolutionValidator.MsTest
+</code></pre>
+
+<h3>Library Structure</h3>
+
+<p>NugetSolutionValidator consists of the following projects:</p>
+
+<ul>
+<li>
+<strong>NugetSolutionValidator:</strong> Domain Services library, this is where the knowledge of reading files and validating is kept</li>
+<li>
+<strong>NugetSolutionValidator.NUnit:</strong> Contains a single NUnit TestFixture that runs validations in the NugetSolutionValidator library as tests</li>
+<li>
+<strong>NugetSolutionValidator.MsTest:</strong> Contains a single Microsoft TestClass that runs validations in the NugetSolutionValidator library as tests</li>
+<li>
+<strong>NugetSolutionValidator.Tests:</strong> Unit Test library that tests the Domain Services in NugetSolutionValidator</li>
+<li>
+<strong>SampleProject:</strong> Sample project to see how the tests are installed and work</li>
+</ul><h3>Sample Usages</h3>
+
+<p>Given:</p>
+
+<ul>
+<li>Solution named MySolution</li>
+<li>NuSpec file name 'SomeGreatThing' that packages the projects: 'GreatProject1' and 'GreatProject2' libraries into a nuget package</li>
+</ul><h4>Verify that all packages are the same version, excluding test projects</h4>
+
+<div class="highlight"><pre>    <span class="kt">var</span> <span class="n">solutionBuilder</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SolutionBuilder</span><span class="p">();</span>
+    <span class="kt">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BuildSolutionRequest</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">WithSolutionName</span><span class="p">(</span><span class="s">"MySolutionName"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">WithProjects</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="p">!</span><span class="n">p</span><span class="p">.</span><span class="n">Name</span><span class="p">.</span><span class="n">EndsWith</span><span class="p">(</span><span class="s">"Test"</span><span class="p">))</span>
+        <span class="p">;</span>
+    <span class="n">_solution</span> <span class="p">=</span> <span class="n">solutionBuilder</span><span class="p">.</span><span class="n">Build</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</pre></div>
+
+<h4>Verify that a nuspec package has all its dependencies configured</h4>
+
+<div class="highlight"><pre>    <span class="kt">var</span> <span class="n">solutionBuilder</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SolutionBuilder</span><span class="p">();</span>
+    <span class="kt">var</span> <span class="n">request</span> <span class="p">=</span> <span class="k">new</span> <span class="n">BuildSolutionRequest</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">WithSolutionName</span><span class="p">(</span><span class="s">"MySolution"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">WithNuSpec</span><span class="p">(</span><span class="s">"SomeGreatThing"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">WithNuSpecProjectSet</span><span class="p">(</span><span class="s">"SomeGreatThing"</span><span class="p">,</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="s">"GreatProject1"</span><span class="p">,</span><span class="s">"GreatProject2"</span> <span class="p">})</span>
+        <span class="p">;</span>
+
+    <span class="n">_solution</span> <span class="p">=</span> <span class="n">solutionBuilder</span><span class="p">.</span><span class="n">Build</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</pre></div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/Parametric/NuGetSolutionValidator/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Parametric/NuGetSolutionValidator/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/Parametric/NuGetSolutionValidator"></a> is maintained by <a href="https://github.com/Parametric">Parametric</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
