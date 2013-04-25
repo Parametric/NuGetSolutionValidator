@@ -34,8 +34,7 @@ namespace NugetSolutionValidator.Validators
                     yield return new ValidationResult {Message = message};
                 }
 
-                if (nuspecDependenciesbyId.Contains(dependency.Id)
-                    && nuspecDependenciesbyId[dependency.Id].First().Version != dependency.Version)
+                if (DependencyVersionsDoNotMatch(nuspecDependenciesbyId, dependency))
                 {
                     foreach (var nuspecEntry in nuspecDependenciesbyId[dependency.Id])
                     {
@@ -53,6 +52,12 @@ namespace NugetSolutionValidator.Validators
                   
                 }
             }
+        }
+
+        private static bool DependencyVersionsDoNotMatch(ILookup<string, NuGetPackageDependency> nuspecDependenciesbyId, NuGetPackageDependency dependency)
+        {
+            return nuspecDependenciesbyId.Contains(dependency.Id)
+                   && nuspecDependenciesbyId[dependency.Id].First().Version.CleanVersion() != dependency.Version.CleanVersion();
         }
 
         public IEnumerable<ValidationResult> Validate(Solution solution)
@@ -92,6 +97,14 @@ namespace NugetSolutionValidator.Validators
             }
 
             return results;
+        }
+    }
+
+    internal static class VersionExtensions
+    {
+        public static string CleanVersion(this string rawVersion)
+        {
+            return rawVersion.Replace("[", "").Replace("]", "");
         }
     }
 }

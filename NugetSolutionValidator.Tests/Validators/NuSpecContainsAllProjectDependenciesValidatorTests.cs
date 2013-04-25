@@ -45,6 +45,41 @@ namespace NugetSolutionValidator.Tests.Validators
         }
 
         [Test]
+        public void Nothing_is_found_when_dependencies_match_with_locked_versions()
+        {
+            // Arrange
+            var nuspecFile = new NuSpecFile
+            {
+                PackageDependencies = new[]
+                        {
+                            new NuGetPackageDependency{Id = "P1",Version = "[v1]"},
+                            new NuGetPackageDependency{Id = "P2",Version = "v1"}
+                        }
+            };
+            var projects = new[]
+                {
+                    new Project
+                        {
+                            PackageDependencies = new[]
+                                {
+                                    new NuGetPackageDependency {Id = "P1", Version = "v1"},
+                                    new NuGetPackageDependency {Id = "P2", Version = "v1"}
+                                }
+                        }
+                };
+
+            var request = new NuSpecValidationRequest { NuSpecFile = nuspecFile, Projects = projects };
+
+            var validator = new NuSpecContainsAllProjectDependenciesValidator();
+
+            // Act
+            var results = validator.Validate(request).ToList();
+
+            // Assert
+            Assert.That(results, Is.Empty);
+        }
+
+        [Test]
         public void Nothing_is_found_when_dependencies_do_not_match_but_they_are_optional()
         {
             // Arrange
