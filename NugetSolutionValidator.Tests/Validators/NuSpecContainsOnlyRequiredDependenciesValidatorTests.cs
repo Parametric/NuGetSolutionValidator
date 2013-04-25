@@ -45,6 +45,41 @@ namespace NugetSolutionValidator.Tests.Validators
         }
 
         [Test]
+        public void Nothing_is_found_when_dependencies_match_and_there_is_a_project_dependency()
+        {
+            // Arrange
+            var nuspecFile = new NuSpecFile
+            {
+                PackageDependencies = new[]
+                        {
+                            new NuGetPackageDependency{Id = "P1",Version = "v1"},
+                            new NuGetPackageDependency{Id = "P2",Version = "v1"}
+                        }
+            };
+            var projects = new[]
+                {
+                    new Project
+                        {
+                            PackageDependencies = new[]
+                                {
+                                    new NuGetPackageDependency {Id = "P1", Version = "v1"},
+                                }
+                        },
+                    new Project{Name = "P2",PackageDependencies = new NuGetPackageDependency[0]}
+                };
+
+            var request = new NuSpecValidationRequest { NuSpecFile = nuspecFile, Projects = projects };
+
+            var validator = new NuSpecContainsOnlyRequiredDependenciesValidator();
+
+            // Act
+            var results = validator.Validate(request).ToList();
+
+            // Assert
+            Assert.That(results, Is.Empty);
+        }
+
+        [Test]
         public void Each_unnecessary_dependency_is_shown_then_they_do_not_match()
         {
             // Arrange

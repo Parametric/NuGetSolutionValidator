@@ -25,6 +25,8 @@ namespace NugetSolutionValidator.Validators
                 .Where(d => !projectDependenciesById.Contains(d.Id))
                 .ToList();
 
+            RemoveProjectReferencesFromUnnecessaryDependencies(validationRequest, unnecessaryDependencies);
+
             var validations = unnecessaryDependencies
                 .Select(d => new ValidationResult
                     {
@@ -34,6 +36,21 @@ namespace NugetSolutionValidator.Validators
                     });
 
             return validations;
+        }
+
+        private static void RemoveProjectReferencesFromUnnecessaryDependencies(NuSpecValidationRequest validationRequest,
+                                                                               List<NuGetPackageDependency> unnecessaryDependencies)
+        {
+            foreach (var project in validationRequest.Projects)
+            {
+                var projectAsUnecessaryDependency = unnecessaryDependencies
+                    .FirstOrDefault(d => d.Id == project.Name);
+
+                if (projectAsUnecessaryDependency != null)
+                {
+                    unnecessaryDependencies.Remove(projectAsUnecessaryDependency);
+                }
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(Solution solution)
