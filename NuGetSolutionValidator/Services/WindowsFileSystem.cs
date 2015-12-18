@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace NugetSolutionValidator.Services
 {
@@ -8,7 +9,7 @@ namespace NugetSolutionValidator.Services
     {
         public string FindFullFilePath(string fileName)
         {
-            var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+            var currentDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location));
             var file = currentDirectory.GetFiles(fileName).FirstOrDefault();
             while (file == null && currentDirectory.Parent != null)
             {

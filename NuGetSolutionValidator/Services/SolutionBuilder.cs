@@ -39,6 +39,11 @@ namespace NugetSolutionValidator.Services
 
             var solutionFilePath = _fileSystem.FindFullFilePath(solutionName);
 
+            // this can return null
+            if(solutionFilePath == null)
+                throw new ApplicationException(string.Format("Could not locate solution file. Looked in file path '{0}', and recursed back to the root.", Environment.CurrentDirectory));
+
+
             var solutionFileContents = _fileSystem.ReadFile(solutionFilePath);
             var projectsInSolution = ReadProjectsFromSolution(solutionFileContents, solutionFilePath);
 

@@ -18,7 +18,7 @@
 	  </frameworkAssemblies>
     
     <dependencies>
-	    <dependency id="NUnit" version="2.5.7.10213" />
+	    <dependency id="NUnit" version="3.0.1" />
     </dependencies>
     
   </metadata>
