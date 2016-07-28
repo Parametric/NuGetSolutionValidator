@@ -8,3 +8,5 @@ bin/
 packages/
 *.suo
 _NCrunch*
+.nuget/
+TestResults/
