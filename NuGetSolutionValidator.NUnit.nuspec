@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/parametric/NuGetSolutionValidator</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provides some basic validations for .NET solutions using NuGet packages.</description>
-    <releaseNotes>This release makes the package entirely dependency free.</releaseNotes>
+    <releaseNotes>This release makes the package entirely dependency free. Tested with NUnit 2.4+</releaseNotes>
     <copyright>Copyright 2013-2016</copyright>
     <tags>NUnit, NuGet</tags>
 	  <frameworkAssemblies>
