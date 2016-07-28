@@ -26,6 +26,7 @@ namespace NuGetSolutionValidator.MsTest
                 .WithSolutionName("NuGetSolutionValidator")
                 .WithProjects(p => p.Name != "NugetSolutionValidator.Tests")
                 .WithNuSpec("NuGetSolutionValidator.NUnit")
+                .WithNuSpec("NuGetSolutionValidator.Xunit")
                 .WithNuSpec("NuGetSolutionValidator.MSTest");
 
             _solution = solutionBuilder.Build(request);

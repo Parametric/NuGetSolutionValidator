@@ -9,7 +9,7 @@ namespace NugetSolutionValidator.Services
     {
         public string FindFullFilePath(string fileName)
         {
-            var currentDirectory = new DirectoryInfo(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location));
+            var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
             var file = currentDirectory.GetFiles(fileName).FirstOrDefault();
             while (file == null && currentDirectory.Parent != null)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using NUnit.Framework;
 using NugetSolutionValidator.DomainModels;
@@ -19,7 +20,7 @@ namespace NugetSolutionValidator.NUnit
 
         private Solution _solution;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void BeforeAll()
         {
             var solutionBuilder = new SolutionBuilder();
@@ -27,6 +28,7 @@ namespace NugetSolutionValidator.NUnit
                 .WithSolutionName("NuGetSolutionValidator")
                 .WithProjects(p => p.Name != "NugetSolutionValidator.Tests")
                 .WithNuSpec("NuGetSolutionValidator.NUnit")
+                .WithNuSpec("NuGetSolutionValidator.Xunit")
                 .WithNuSpec("NuGetSolutionValidator.MSTest");
 
             _solution = solutionBuilder.Build(request);
