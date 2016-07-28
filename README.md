@@ -46,6 +46,10 @@ NugetSolutionValidator consists of the following projects:
 * __NugetSolutionValidator.Tests:__ Unit Test library that tests the Domain Services in NugetSolutionValidator
 * __SampleProject:__ Sample project to see how the tests are installed and work
 
+### Notes about Resharper Usage.
+
+Some folks have noticed odd errors when using Resharper 2016.  Resharper shadow copies unit test assemblies by default, and though the error will report the working directly correctly, it is NOT in fact working from the directory specified.  If you see an error that it can't find your solution, check to make sure shadow-copied unit test assemblies is turned off.
+
 ### Sample Usages
 Given:
 * Solution named MySolution
