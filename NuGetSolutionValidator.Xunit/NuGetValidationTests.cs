@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
 using NugetSolutionValidator.DomainModels;
 using NugetSolutionValidator.Services;
 using NugetSolutionValidator.Validators;
+using Xunit;
+using Xunit.Abstractions;
 
-namespace NugetSolutionValidator.NUnit
+namespace NuGetSolutionValidator.Xunit
 {
-    [TestFixture]
+    
     public class NuGetValidationTests
     {
-
         /// <summary>
         /// See documentation at https://github.com/Parametric/NuGetSolutionValidator/
         /// </summary>
 
-        private Solution _solution;
+        private readonly Solution _solution;
+        private readonly ITestOutputHelper _logger;
 
-        [TestFixtureSetUp]
-        public void BeforeAll()
+        public NuGetValidationTests(ITestOutputHelper logger)
         {
+            _logger = logger;
             var solutionBuilder = new SolutionBuilder();
             var request = new BuildSolutionRequest()
                 .WithSolutionName("NuGetSolutionValidator")
@@ -32,7 +33,7 @@ namespace NugetSolutionValidator.NUnit
             _solution = solutionBuilder.Build(request);
         }
 
-        [Test]
+        [Fact]
         public void Show_all_project_dependencies()
         {
             // Arrange
@@ -42,10 +43,10 @@ namespace NugetSolutionValidator.NUnit
                 .ToList();
 
             // Act
-            dependencies.ForEach(d=>Console.WriteLine(d.ToString()));
+            dependencies.ForEach(d => _logger.WriteLine(d.ToString()));
         }
 
-        [Test]
+        [Fact]
         public void All_dependencies_are_same_version()
         {
             // Arrange
@@ -53,12 +54,12 @@ namespace NugetSolutionValidator.NUnit
 
             // Act
             var results = validator.Validate(_solution);
-
+            _logger.WriteLine(GetFailureMessage(results));
             // Assert
-            Assert.That(results, Is.Empty, GetFailureMessage(results));
+            Assert.Empty(results);
         }
 
-        [Test]
+        [Fact]
         public void Nuspec_files_contain_only_one_entry_per_package_dependency()
         {
             // Arrange
@@ -66,13 +67,13 @@ namespace NugetSolutionValidator.NUnit
 
             // Act
             var results = validator.Validate(_solution.NuSpecFiles);
-
+            _logger.WriteLine(GetFailureMessage(results));
             // Assert
-            Assert.That(results, Is.Empty, GetFailureMessage(results));
+            Assert.Empty(results);
 
         }
 
-        [Test]
+        [Fact]
         public void Nuspec_files_contains_required_dependencies()
         {
             // Arrange
@@ -80,12 +81,12 @@ namespace NugetSolutionValidator.NUnit
 
             // Act
             var results = validator.Validate(_solution);
-
+            _logger.WriteLine(GetFailureMessage(results));
             // Assert
-            Assert.That(results, Is.Empty, GetFailureMessage(results));
+            Assert.Empty(results);
         }
 
-        [Test]
+        [Fact]
         public void Nuspec_files_do_not_contain_unnecessary_dependencies()
         {
             // Arrange
@@ -94,8 +95,9 @@ namespace NugetSolutionValidator.NUnit
             // Act
             var results = validator.Validate(_solution);
 
+            _logger.WriteLine(GetFailureMessage(results));
             // Assert
-            Assert.That(results, Is.Empty, GetFailureMessage(results));
+            Assert.Empty(results);
         }
 
         private string GetFailureMessage(IEnumerable<ValidationResult> results)

@@ -14,6 +14,10 @@ namespace NuGetSolutionValidator.MsTest
     {
         private static Solution _solution;
 
+        /// <summary>
+        /// See documentation at https://github.com/Parametric/NuGetSolutionValidator/
+        /// </summary>
+        
         [ClassInitialize]
         public static void BeforeAll(TestContext context)
         {

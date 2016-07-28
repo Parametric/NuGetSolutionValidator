@@ -2,7 +2,7 @@
 <package >
   <metadata>
     
-    <id>NuGetSolutionValidator.NUnit</id>
+    <id>NuGetSolutionValidator.Xunit</id>
     <version>$version$</version>
     <authors>Parametric Portfolio Associates</authors>
     <owners>Parametric Portfolio Associates</owners>
@@ -11,7 +11,7 @@
     <description>Provides some basic validations for .NET solutions using NuGet packages.</description>
     <releaseNotes>This release makes the package entirely dependency free.</releaseNotes>
     <copyright>Copyright 2013-2016</copyright>
-    <tags>NUnit, NuGet</tags>
+    <tags>Xunit, NuGet</tags>
 	  <frameworkAssemblies>
 	    <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net40" />
 	  </frameworkAssemblies>
@@ -19,7 +19,7 @@
   
   <files>
     <file src="NuGetSolutionValidator\bin\Release\NuGetSolutionValidator.dll" target="lib/net40"/>
-	  <file src="NuGetSolutionValidator.NUnit\NuGetValidationTests.cs" target="content/NuGet/NuGetValidationTests.cs" />
+	  <file src="NuGetSolutionValidator.XUnit\NuGetValidationTests.cs" target="content/NuGet/NuGetValidationTests.cs" />
   </files>
   
 </package>

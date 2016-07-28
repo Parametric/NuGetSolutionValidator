@@ -9,10 +9,9 @@
     <projectUrl>https://github.com/parametric/NuGetSolutionValidator</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provides some basic validations for .NET solutions using NuGet packages.</description>
-    <releaseNotes>Initial Release</releaseNotes>
-    <copyright>Copyright 2013</copyright>
-    <tags>MsTest, NuGet</tags>
-    
+    <releaseNotes>This release makes the package entirely dependency free.</releaseNotes>
+    <copyright>Copyright 2013-2016</copyright>
+    <tags>MsTest, NuGet</tags>    
 	  <frameworkAssemblies>
 	    <frameworkAssembly assemblyName="Microsoft.VisualStudio.QualityTools.UnitTestFramework" targetFramework="net40" />
 	  </frameworkAssemblies>
