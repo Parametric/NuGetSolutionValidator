@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSolutionValidator", "NuGetSolutionValidator\NuGetSolutionValidator.csproj", "{59685A8C-6A25-4F12-86E3-829864A418A3}"
 EndProject
@@ -21,6 +21,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSolutionValidator.MsTest", "NuGetSolutionValidator.MsTest\NuGetSolutionValidator.MsTest.csproj", "{DAC11991-334B-4CC1-83B6-E71C5F3A2162}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSolutionValidator.Xunit", "NuGetSolutionValidator.Xunit\NuGetSolutionValidator.Xunit.csproj", "{26128B8E-2199-4A06-A627-A58754C06656}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{F8F77468-7F13-452B-BF69-EA1C67DD8194}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,5 +60,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D5DABCF7-C93A-45D7-9E25-2738ED456043} = {DAB318B1-D426-4090-8122-93609F88B6CA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28D93807-0755-4AB7-958E-5AE6FB3C8660}
 	EndGlobalSection
 EndGlobal
