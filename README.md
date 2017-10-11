@@ -58,8 +58,9 @@ Here is the fix:
 1. Select the test assembly(s) that includes your NuGetSolutionValidator tests (either shared or my settings should work).
 1. Under General, find and edit _Additional files to include_
 1. Add the following two items manually:
-	1. *.sln
-	1. *.nuspec
+	1. <div>**.sln OR ..\\**.sln</ div>
+	1. <div>**.nuspec OR ..\\**.sln</ div>
+	1. Read the help text carefully for _Additional files to include_ as where the files are included from is relative.
 
 NCrunch should not run your tests as intended. 
 
