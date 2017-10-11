@@ -13,10 +13,12 @@ namespace NugetSolutionValidator.Services
         private readonly IBuilder<Project, BuildProjectRequest> _projectBuilder;
         private readonly IBuilder<NuSpecFile, string> _nuspecFileBuilder;
 
+        private static readonly IFileSystem DefaultFileSystem = new WindowsFileSystem();
+        private static readonly IBuilder<Project, BuildProjectRequest> DefaultProjectBuilder = new ProjectBuilder(DefaultFileSystem, new NuGetPackageDependencyBuilder(DefaultFileSystem));
+        private static readonly IBuilder<NuSpecFile, string> DefaultNuspecFileBuilder = new NuSpecFileBuilder(new NuSpecPackageDependencyBuilder(DefaultFileSystem));
+
         public SolutionBuilder()
-            :this(new WindowsFileSystem(), 
-            new ProjectBuilder(new WindowsFileSystem(), new NuGetPackageDependencyBuilder(new WindowsFileSystem())),
-            new NuSpecFileBuilder(new NuSpecPackageDependencyBuilder(new WindowsFileSystem())))
+            :this(DefaultFileSystem, DefaultProjectBuilder, DefaultNuspecFileBuilder)
         {
             
         }
@@ -41,7 +43,7 @@ namespace NugetSolutionValidator.Services
 
             // this can return null
             if(solutionFilePath == null)
-                throw new ApplicationException(string.Format("Could not locate solution file '{1}'. Looked in file path '{0}', and recursed back to the root.", Environment.CurrentDirectory, solutionName));
+                throw new ApplicationException($"Could not locate solution file '{solutionName}'. Looked in file path '{Environment.CurrentDirectory}', and recursed back to the root.");
 
 
             var solutionFileContents = _fileSystem.ReadFile(solutionFilePath);

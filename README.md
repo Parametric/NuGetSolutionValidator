@@ -48,7 +48,20 @@ NugetSolutionValidator consists of the following projects:
 
 ### Notes about Resharper Usage.
 
-Some folks have noticed odd errors when using Resharper 2016.  Resharper shadow copies unit test assemblies by default, and though the error will report the working directly correctly, it is NOT in fact working from the directory specified.  If you see an error that it can't find your solution, check to make sure shadow-copied unit test assemblies is turned off.
+Issues with respect to resharper should be fixed.
+
+### Notes about NCrunch Usage.
+
+If these tests may fail in NCrunch becuase NCrunch moves the assemblies are copied elsewhere, possibly to a different server, to run the tests.  Unlike Resharper, NCrunch changes the Asseblies CodeBase to match their new location.
+Here is the fix:
+1. Open NCrunch -> Configuration,
+1. Select the test assembly(s) that includes your NuGetSolutionValidator tests (either shared or my settings should work).
+1. Under General, find and edit _Additional files to include_
+1. Add the following two items manually:
+	1. *.sln
+	1. *.nuspec
+
+NCrunch should not run your tests as intended. 
 
 ### Sample Usages
 Given:
